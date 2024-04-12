@@ -73,12 +73,13 @@ ul{
     width: 286px;
     margin: 11px 22px 18px 28px;
     border: 1px solid #C4C4C4;
-    padding: 10px 30px;
+    padding: 10px 0px;
     border-radius: 10px;
 }
 
 ul li{
     display:flex;
+    padding:0px 30px;
     align-items: center;
     justify-content: space-between;
 }

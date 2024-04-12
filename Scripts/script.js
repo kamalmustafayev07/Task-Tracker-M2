@@ -1,75 +1,80 @@
-const listContainer=document.getElementById('list-container');
+const listContainer = document.getElementById('list-container');
 
-//DRAG AND DROP
-
-//Кнопка добавления
-function addTask(){
-    let li=document.createElement('li');
-    //Добавление возможности drag and drop
-    li.setAttribute('draggable','true');
-    li.innerHTML='<input type="text"><button class="delete-button"></button>';
-    listContainer.appendChild(li);
-
-    //Кнопка удаления
-    let deleteButtons=document.querySelectorAll('.delete-button');
-    deleteButtons.forEach((item)=>{
-    item.addEventListener('click',()=>{
-        item.parentElement.remove();
-    })
-});
-
+// DRAG AND DROP
+function handleDragStart(e) {
+    e.target.classList.add("dragging");
 }
 
-//УДАЛЕНИЕ ПЕРВОГО ЭЛЕМЕНТА
-let tasks = [];
+function handleDragEnd(e) {
+    e.target.classList.remove("dragging");
+}
 
-let firstButton = document.getElementById("first-button");
+//Добавление такой возможности для уже существующего li
+const li = listContainer.querySelector('li');
+li.addEventListener('dragstart',handleDragStart);
+li.addEventListener('dragend',handleDragEnd);
 
-firstButton.addEventListener('click', () =>{
-    let inputs = document.querySelectorAll('ul li input');
-    if (inputs.length>1){
-    inputs.forEach((item)=>{
-        tasks.push(item.value)
+function initSortableList(e) {
+    e.preventDefault();
+    const draggingItem = listContainer.querySelector('.dragging');
+    const siblings = [...listContainer.querySelectorAll("li:not(.dragging)")];
+    let nextSibling = siblings.find(sibling => e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2);
+    listContainer.insertBefore(draggingItem, nextSibling);
+}
+
+listContainer.addEventListener("dragover", initSortableList);
+
+// Кнопка добавления
+function addTask() {
+    const li = document.createElement('li');
+    //Добавление такой возможности для новых li
+    li.setAttribute('draggable', 'true');
+    li.innerHTML = '<input type="text"><button class="delete-button"></button>';
+    li.addEventListener("dragstart", handleDragStart);
+    li.addEventListener("dragend", handleDragEnd);
+    listContainer.appendChild(li);
+
+    const deleteButton = li.querySelector('.delete-button');
+    deleteButton.addEventListener('click', () => {
+        li.remove();
     });
-    tasks.splice(0,1)
-    for (let i=0; i<tasks.length; i++)
-        inputs[i].value = tasks[i];
+}
 
-    document.querySelector("ul li:last-child").remove();
-    tasks=[];
-    } else{
-        inputs.forEach((item)=>{
-            item.value = ''
-        }) 
+// УДАЛЕНИЕ ПЕРВОГО ЭЛЕМЕНТА
+const firstButton = document.getElementById("first-button");
+let tasks=[];
+
+firstButton.addEventListener('click', () => {
+    const inputs = listContainer.querySelectorAll('li input');
+    if (inputs.length > 1) {
+        inputs.forEach(item => {
+            tasks.push(item.value);
+        });
+        tasks.shift();
+        for (let i = 0; i < tasks.length; i++) {
+            inputs[i].value = tasks[i];
+        }
+        listContainer.removeChild(listContainer.lastElementChild);
+    } else {
+        inputs.forEach(item => {
+            item.value = '';
+        });
     }
-
+    tasks=[];
 });
 
-//СОРТИРОВКА
+// СОРТИРОВКА
+const sortButton = document.getElementById('sort-button');
 let flag=false;
 
-let sortButton=document.getElementById('sort-button')
-sortButton.addEventListener('click',()=>{
+sortButton.addEventListener('click', () => {
     sortButton.classList.toggle('sort-button-increase');
-    if(flag){
-        let inputs = document.querySelectorAll('ul li input');
-        inputs.forEach((item)=>{
-            tasks.push(item.value);
-        })
-        tasks.sort((a,b)=>a.localeCompare(b));
-        for(let i=0;i<tasks.length;i++)
-            inputs[i].value=tasks[i];
-    }
-    else{
-        let inputs = document.querySelectorAll('ul li input');
-        inputs.forEach((item)=>{
-            tasks.push(item.value);
-        })
-        tasks.sort((a,b)=>b.localeCompare(a));
-        for(let i=0;i<tasks.length;i++)
-            inputs[i].value=tasks[i];
-    }
-    flag=!flag;
+    const inputs = listContainer.querySelectorAll('li input');
+    tasks = Array.from(inputs).map(input => input.value);
+    tasks.sort((a, b) => flag ? a.localeCompare(b) : b.localeCompare(a));
+    tasks.forEach((task, index) => {
+        inputs[index].value = task;
+    });
     tasks=[];
-
+    flag = !flag;
 });

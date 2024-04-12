@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/Scripts/script.js" defer></script>
+    <link rel="stylesheet" href="/Styles/style.css">
+    <title>To-do List</title>
+</head>
+<body>
+    <div class="container">
+        <div class="todolist-container">
+            <div class="yellow-part"></div>
+            <h1>To-Do List</h1>
+            <button id="sort-button" class="sort-button-increase"></button>
+            <ul id="list-container">
+                <li draggable="true">
+                    <input id="first-input" type="text">
+                    <button id="first-button"></button>
+                </li>
+            </ul>
+            <button id="add-button" onclick="addTask()"><span class="pluspart-button">+</span><span class="addpart-button">Добавить</span></button>
+        </div>
+    </div>
+</body>
+</html>

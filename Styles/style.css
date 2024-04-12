@@ -10,7 +10,6 @@ body{
     font-family: Roboto;
 }
 
-
 .container{
     width: 100%;
     height: 100vh;
@@ -52,7 +51,6 @@ h1{
 #sort-button:hover{
     background-image: url('/Assets/icons/sort-decrease-hover.svg');
 }
-
 
 #sort-button.sort-button-increase{
     background-image: url('/Assets/icons/sort-increase-normal.svg');
@@ -96,8 +94,8 @@ ul li input{
 }
 
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset; /* Устанавливаем тень, чтобы перекрыть цвет фона */
-    -webkit-text-fill-color: #000; /* Цвет текста в input */
+    -webkit-box-shadow: 0 0 0 30px white inset; 
+    -webkit-text-fill-color: #000;
 }
 
 ul li button{
@@ -135,7 +133,6 @@ ul li button:hover{
     justify-content: center;
     height: 42px;
     width: 42px;
-    border: none;
     border-radius: 50%;
     background-color: #9953F1;
 }
@@ -157,4 +154,4 @@ ul li button:hover{
         opacity: 0.5;
         border: 2px dashed #ccc;
         border-radius: 10px;
-    }
+}

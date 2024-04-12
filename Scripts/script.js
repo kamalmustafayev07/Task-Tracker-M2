@@ -5,7 +5,7 @@ const listContainer=document.getElementById('list-container');
 //Кнопка добавления
 function addTask(){
     let li=document.createElement('li');
-    //Добавление возможности drag and pull
+    //Добавление возможности drag and drop
     li.setAttribute('draggable','true');
     li.innerHTML='<input type="text"><button class="delete-button"></button>';
     listContainer.appendChild(li);

@@ -65,13 +65,18 @@ firstButton.addEventListener('click', () => {
 
 // СОРТИРОВКА
 const sortButton = document.getElementById('sort-button');
-let flag=false;
+let flag=true;
 
 sortButton.addEventListener('click', () => {
-    sortButton.classList.toggle('sort-button-increase');
     const inputs = listContainer.querySelectorAll('li input');
     tasks = Array.from(inputs).map(input => input.value);
-    tasks.sort((a, b) => flag ? a.localeCompare(b) : b.localeCompare(a));
+    if(flag){
+        sortButton.className='sort-button-increase';
+        tasks.sort((a,b)=> a.localeCompare(b));
+    }else{
+        sortButton.className='sort-button-decrease';
+        tasks.sort((a,b)=> b.localeCompare(a));
+    }
     tasks.forEach((task, index) => {
         inputs[index].value = task;
     });

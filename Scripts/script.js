@@ -50,7 +50,7 @@ let flag = true;
 
 sortButton.addEventListener('click', () => {
     const inputs = listContainer.querySelectorAll('li input');
-    tasks = Array.from(inputs).map(input => input.value);
+    let tasks = Array.from(inputs).map(input => input.value);
     if (flag) {
         sortButton.className = 'sort-button-increase';
         tasks.sort((a, b) => a.localeCompare(b));
@@ -61,6 +61,5 @@ sortButton.addEventListener('click', () => {
     tasks.forEach((task, index) => {
         inputs[index].value = task;
     });
-    tasks = [];
     flag = !flag;
 });
